@@ -27,61 +27,54 @@ scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
 [node name="Boid" type="Node2D"]
+position = Vector2( -768.831, -569.91 )
 script = ExtResource( 1 )
-colors = [ Color( 0.545098, 0.596078, 0.960784, 1 ), Color( 0.670588, 0.545098, 0.843137, 1 ), Color( 0.407843, 0.756863, 0.709804, 1 ) ]
+colors = [ Color( 0.545098, 0.596078, 0.960784, 1 ), Color( 0.670588, 0.545098, 0.843137, 1 ) ]
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 polygon = PoolVector2Array( -8, -8, 16, 0, -8, 8 )
 
-[node name="ObsticleDetectors" type="Node2D" parent="."]
-
-[node name="LeftRay" type="RayCast2D" parent="ObsticleDetectors"]
-position = Vector2( 0, -8 )
-rotation = -1.5708
-enabled = true
-
-[node name="RightRay" type="RayCast2D" parent="ObsticleDetectors"]
-position = Vector2( 0, 8 )
-rotation = -1.5708
-enabled = true
-
 [node name="ObsticleSensors" type="Node2D" parent="."]
 
 [node name="RayCast2D" type="RayCast2D" parent="ObsticleSensors"]
-rotation = -1.74533
+rotation = -1.5708
 enabled = true
 
 [node name="RayCast2D2" type="RayCast2D" parent="ObsticleSensors"]
-rotation = -1.39626
+rotation = -0.785398
 enabled = true
 
 [node name="RayCast2D3" type="RayCast2D" parent="ObsticleSensors"]
-rotation = -1.0472
 enabled = true
 
 [node name="RayCast2D4" type="RayCast2D" parent="ObsticleSensors"]
-rotation = -2.0944
+rotation = 0.785398
 enabled = true
 
 [node name="RayCast2D5" type="RayCast2D" parent="ObsticleSensors"]
-rotation = -0.698132
+rotation = 1.5708
 enabled = true
 
 [node name="RayCast2D6" type="RayCast2D" parent="ObsticleSensors"]
-rotation = -2.44346
+rotation = 2.35619
 enabled = true
 
 [node name="RayCast2D7" type="RayCast2D" parent="ObsticleSensors"]
-rotation = -0.349066
+rotation = 3.14159
 enabled = true
 
 [node name="RayCast2D8" type="RayCast2D" parent="ObsticleSensors"]
-rotation = -2.79253
+rotation = 3.75246
 enabled = true
 
 [node name="Particles2D" type="Particles2D" parent="."]
+visible = false
 lifetime = 5.0
 randomness = 1.0
 local_coords = false
 process_material = SubResource( 5 )
 texture = ExtResource( 2 )
+
+[node name="ObsticleDetectors" type="Node" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="ObsticleDetectors"]

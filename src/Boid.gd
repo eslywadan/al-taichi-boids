@@ -6,14 +6,18 @@ onready var sensors = $ObsticleSensors
 
 var boids = []
 var move_speed = 200
-var perception_radius = 50
+var perception_radius = 35
 var velocity = Vector2()
 var acceleration = Vector2()
-var steer_force = 50.0
+var steer_force = 30.0
 var alignment_force = 0.6
 var cohesion_force = 0.6
-var seperation_force = 1.0
+var seperation_force = 0.6
 var avoidance_force = 3.0
+var neighbor_num = 5.0 
+var adj_rate = 10.0
+#var neighbor_num = 5000
+#var adj_rate = 1
 
 
 export (Array, Color) var colors 
@@ -30,9 +34,22 @@ func _process(delta):
 	
 	var neighbors = get_neighbors(perception_radius)
 	
-	acceleration += process_alignments(neighbors) * alignment_force
-	acceleration += process_cohesion(neighbors) * cohesion_force
-	acceleration += process_seperation(neighbors) * seperation_force
+	var alignments = process_alignments(neighbors)
+	var cohesion = process_cohesion(neighbors) 
+	var seperation = process_seperation(neighbors)
+	
+	var adj_cohesion_force = cohesion_force
+	var adj_seperation_force = seperation_force
+	
+	if neighbors.size() > neighbor_num:
+		adj_seperation_force *= adj_rate
+	
+	if neighbors.size() < neighbor_num:
+		adj_cohesion_force *= adj_rate
+	
+	acceleration += alignments * alignment_force
+	acceleration += cohesion * adj_cohesion_force
+	acceleration += seperation * adj_seperation_force
 
 	if is_obsticle_ahead():
 		acceleration += process_obsticle_avoidance() * avoidance_force
@@ -106,6 +123,7 @@ func get_neighbors(view_radius):
 
 	for boid in boids:
 		if position.distance_to(boid.position) <= view_radius and not boid == self:
+		# if position.distance_to(boid.position) <= boid.neighbor_distance and not boid == self:
 			neighbors.push_back(boid)
 	return neighbors
 			
